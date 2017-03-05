@@ -10,7 +10,6 @@ class Grid_Modify:
     def __init__(self,filename):
         self.FileName=filename
         self.Dataset=gdal.Open(self.FileName)
-        self.DataArray=self.Dataset.ReadAsArray(0,0,self.Dataset.RasterXSize,self.Dataset.RasterYSize)
         self.FileType=(self.Dataset.GetDriver()).LongName
         self.DataType=self.Dataset.GetRasterBand(1).DataType
         self.DataTypeStr=gdal.GetDataTypeName(self.DataType)
@@ -59,6 +58,8 @@ class Grid_Modify:
         if box[1]>self.YSize|box[3]>self.XSize:
             return 2
         return 0
+	def __Read(self):
+		self.DataArray=self.Dataset.ReadAsArray(0,0,self.XSize,self.YSize)
 #main
 if __name__=="__main__":
     import os,sys
