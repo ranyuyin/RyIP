@@ -6,7 +6,7 @@ Created on Sat Mar 04 16:46:24 2017
 """
 import gdal
 import numpy as np
-class Grid_Modify:
+class Grid:
     def __init__(self,filename):
         self.FileName=filename
         self.Dataset=gdal.Open(self.FileName)
@@ -15,6 +15,8 @@ class Grid_Modify:
         self.DataTypeStr=gdal.GetDataTypeName(self.DataType)
         self.im_proj = self.Dataset.GetProjection()
         self.im_geotrans = self.Dataset.GetGeoTransform()
+        self.XStart=0
+        self.YStart=0
         self.XSize=self.Dataset.RasterXSize
         self.YSize=self.Dataset.RasterYSize
         self.im_bands=self.Dataset.RasterCount
@@ -29,6 +31,8 @@ class Grid_Modify:
             dst_im_geotrans[0]=self.im_geotrans[0]+(box[2]-1)*self.im_geotrans[1]
             dst_im_geotrans[3]=self.im_geotrans[3]+(box[0]-1)*self.im_geotrans[5]
             self.im_geotrans=tuple(dst_im_geotrans)
+            self.XStart=box[2]-1
+            self.YStart=box[0]-1
             self.XSize=box[3]-box[2]+1
             self.YSize=box[1]-box[0]+1
             if self.im_bands == 1:
@@ -59,7 +63,7 @@ class Grid_Modify:
             return 2
         return 0
 	def __Read(self):
-		self.DataArray=self.Dataset.ReadAsArray(0,0,self.XSize,self.YSize)
+		self.DataArray=self.Dataset.ReadAsArray(self.XStart,self.YStart,self.XSize,self.YSize)
 #main
 if __name__=="__main__":
     import os,sys
