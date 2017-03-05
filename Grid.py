@@ -2,7 +2,7 @@
 """
 Created on Sat Mar 04 16:46:24 2017
 
-RyIP v1.1， Ranyu's Image Process
+RyIP v1.11， Ranyu's Image Process
 @author: Ranyu YIN
 @作者：尹然宇
  
@@ -10,12 +10,20 @@ Hosted in GitHub: https://github.com/ranyuyin/RyIP
 托管于GitHub：https://github.com/ranyuyin/RyIP
 
 使用方法：
-CMD：
-Python Grid.py [Source_File_Name] [top_from] [down_end] [left_from] [right_end] [Destination_Filename]
-
-Example: Python Grid.py fdem.tif 50 100 50 100 fdemSub1_1.tif
+裁剪影像：
+CMD：Python Grid.py clip [Source_File_Name] [top_from] [down_end] [left_from] [right_end] [Destination_Filename]
+Example: Python Grid.py clip fdem.tif 50 100 50 100 fdemSub1_1.tif
 表示裁剪出原始图像fdem.tif中的第50到100行，共51行；60到110列，共51列。并将结果写入fdemSub1_1.tif。
 文件名参数可以是相对路径或绝对路径，使用相对路径时需注意当前工作路径设置。
+
+修改日志
+v1.0
+    完成程序主体
+v1.1
+    优化内存，将初始化时读取数据到内存调整为按需读取。
+v1.11
+    调整API，调用时需指定模式，而不是默认使用裁剪功能
+    
 """
 import gdal
 import numpy as np
@@ -80,14 +88,14 @@ class Grid:
 if __name__=="__main__":
     import os,sys
     #判断cmd中是否给了足够的参数，若给了正确的参数，则按给出的参数运行
-    if len(sys.argv)==7:
-        filename=sys.argv[1]
-        up=int(sys.argv[2])
-        down=int(sys.argv[3])
-        left=int(sys.argv[4])
-        right=int(sys.argv[5])
+    if (len(sys.argv)==8)&(sys.argv[1].lower()=='clip'):
+        filename=sys.argv[2]
+        up=int(sys.argv[3])
+        down=int(sys.argv[4])
+        left=int(sys.argv[5])
+        right=int(sys.argv[6])
         grid=Grid(filename)
-        grid.ClipbyBox((up,down,left,right),sys.argv[6])
+        grid.ClipbyBox((up,down,left,right),sys.argv[7])
     else:#测试代码
         print '参数错误，执行测试代码！'
         os.chdir(r'I:\ucas\Python_Geo_Process\chapter_02')
