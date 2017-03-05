@@ -88,7 +88,7 @@ if __name__=="__main__":
         right=int(sys.argv[5])
         grid=Grid(filename)
         grid.ClipbyBox((up,down,left,right),sys.argv[6])
-    else:
+    else:#测试代码
         os.chdir(r'I:\ucas\Python_Geo_Process\chapter_02')
         grid=Grid("fdem.tif")
         grid.ClipbyBox((50,100,50,100))
