@@ -89,7 +89,7 @@ if __name__=="__main__":
         grid=Grid(filename)
         grid.ClipbyBox((up,down,left,right),sys.argv[6])
     else:#测试代码
+        print '参数错误，执行测试代码！'
         os.chdir(r'I:\ucas\Python_Geo_Process\chapter_02')
         grid=Grid("fdem.tif")
-        grid.ClipbyBox((50,100,50,100))
-        grid.SaveAs('fdem_class_clip_submit.tif')
+        grid.ClipbyBox((50,100,50,100),'test.tif')
