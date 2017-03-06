@@ -75,7 +75,11 @@ def map2pix(dataset, x, y):
     a = np.array([[trans[1], trans[2]], [trans[4], trans[5]]])
     b = np.array([x - trans[0], y - trans[3]])
     return np.linalg.solve(a, b)  # 使用numpy的linalg.solve进行二元一次方程的求解,返回 (pixel, line)
-
+def IsLikeInt(num,threshold=0.001):
+    if (abs(round(num)-num)<threshold):
+        return True
+    else:
+        return False
 
 if __name__ == '__main__':
     gdal.AllRegister()
