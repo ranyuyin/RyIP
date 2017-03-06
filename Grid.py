@@ -149,10 +149,12 @@ class Grid:
         else:
             DstArray[:,DstOffY:DstEndY,DstOffX:DstEndX]=self.DataArray[:]
         self.DataArray=DstArray
-        __SaveAs(dstname)
-        
-        '''
-        
+        dst_im_geotrans=list(self.im_geotrans)
+        dst_im_geotrans[0]=self.im_geotrans[0]-DstOffX*self.im_geotrans[1]
+        dst_im_geotrans[3]=self.im_geotrans[3]-DstOffY*self.im_geotrans[5]
+        self.im_geotrans=tuple(dst_im_geotrans)
+        __SaveAs(dstname)        
+        '''        
         intsect==np.min(np.stack((OriginBox,AimBox)),0)
         '''
     def __Align(self,MapLeftX,MapUpY,XSize,YSize):#暂时仅考虑UTM投影
